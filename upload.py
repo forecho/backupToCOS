@@ -33,8 +33,8 @@ client = CosS3Client(config)
 if os.path.isfile(localFile):
     client.put_object_from_local_file(
         Bucket=bucket_name,
-        LocalFilePath=os.path.basename(localFile),
-        Key=localFile,
+        LocalFilePath=localFile,
+        Key=os.path.basename(localFile),
     )
 else:
     print(localFile + ' not exists!')
