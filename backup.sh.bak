@@ -3,7 +3,7 @@
 ## 备份配置信息 ##
 
 # 备份名称，用于标记
-BACKUP_NAME="oss"
+BACKUP_NAME="cos"
 # 备份目录，多个请空格分隔
 BACKUP_SRC="/home/www/"
 # Mysql 主机地址
@@ -15,24 +15,24 @@ MYSQL_PASS="root"
 # Mysql 备份数据库，多个请空格分隔
 MYSQL_DBS="dbname"
 # 备份文件临时存放目录，一般不需要更改
-BACKUP_DIR="/tmp/backup-to-oss"
+BACKUP_DIR="/tmp/backup-to-cos"
 # 备份文件压缩密码
 BACKUP_FILE_PASSWORD="hello"
 
 ## 备份配置信息 End ##
 
-## 阿里云 OSS 配置信息 ##
+## 腾讯云 COS 配置信息 ##
 
 # 存放空间
-OSS_BUCKET="<YOUR_APP_bucket>"
-# ACCESS_KEY
-OSS_ACCESS_KEY="<YOUR_APP_ACCESS_KEY>"
-# SECRET_KEY
-OSS_SECRET_KEY="<YOUR_APP_SECRET_KEY>"
-# Endpoint 示例：https://oss-cn-shenzhen.aliyuncs.com
-OSS_ENDPOINT="<YOUR_endpoint>"
+COS_BUCKET="<YOUR_APP_BUCKET>"
+# secret_id
+SECRET_ID="<YOUR_APP_SECRET_ID>"
+# secret_key
+SECRET_KEY="<YOUR_APP_SECRET_KEY>"
+# region 示例：ap-beijing
+COS_REGION="<YOUR_REGION>"
 
-## 阿里云 OSS 配置信息 End ##
+## 腾讯云 COS 配置信息 End ##
 
 
 
@@ -57,7 +57,7 @@ echo "tar ok"
 
 # 上传
 echo "start upload"
-python $(dirname $0)/upload.py -a $OSS_ACCESS_KEY -s $OSS_SECRET_KEY -b $OSS_BUCKET -e $OSS_ENDPOINT -f $BACKUP_DIR/$BACKUP_FILENAME
+python $(dirname $0)/upload.py -a $SECRET_ID -s $SECRET_KEY -b $COS_BUCKET -e $COS_REGION -f $BACKUP_DIR/$BACKUP_FILENAME
 echo "upload ok"
 
 # 清理备份文件

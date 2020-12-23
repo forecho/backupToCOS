@@ -1,6 +1,8 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os, sys, getopt, oss2
+import os, sys, getopt
+from qcloud_cos import CosConfig
+from qcloud_cos import CosS3Client
 
 # args
 localFile = ''
@@ -14,21 +16,26 @@ except getopt.GetoptError as err:
 
 for k, val in opts:
     if k == '-a':
-        access_key_id = val
+        secret_id = val
     elif k == '-s':
-        access_key_secret = val
+        secret_key = val
     elif k == '-f':
         localFile = val
     elif k == '-e':
-        endpoint = val
+        region = val
     elif k == '-b':
         bucket_name = val
 
-bucket = oss2.Bucket(oss2.Auth(access_key_id, access_key_secret), endpoint, bucket_name)
+config = CosConfig(Region=region, SecretId=secret_id, SecretKey=secret_key)
+client = CosS3Client(config)
 
 # upload
 if os.path.isfile(localFile):
-    bucket.put_object_from_file(os.path.basename(localFile), localFile)
+    client.put_object_from_local_file(
+        Bucket=bucket_name,
+        LocalFilePath=os.path.basename(localFile),
+        Key=localFile,
+    )
 else:
     print(localFile + ' not exists!')
 
